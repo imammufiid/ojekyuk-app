@@ -11,4 +11,12 @@ object Mapper {
         }
         return userResponse?.data?.map(mapper).orEmpty()
     }
+
+    fun mapUserDetailResponse(userDetailResponse: UserDetailResponse?): User {
+        return User(
+            id = userDetailResponse?.data?.id ?: 0,
+            name = "${userDetailResponse?.data?.firstName.orEmpty()} ${userDetailResponse?.data?.lastName.orEmpty()}" ,
+            email = userDetailResponse?.data?.email.orEmpty(),
+        )
+    }
 }
