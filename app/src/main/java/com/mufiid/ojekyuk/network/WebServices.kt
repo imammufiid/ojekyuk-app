@@ -1,13 +1,18 @@
 package com.mufiid.ojekyuk.network
 
-import com.mufiid.ojekyuk.data.UserDetailResponse
-import com.mufiid.ojekyuk.data.UserResponse
+import com.mufiid.ojekyuk.data.request.LoginRequest
+import com.mufiid.ojekyuk.data.request.CustomerRequest
+import com.mufiid.ojekyuk.data.response.BaseResponse
+import com.mufiid.ojekyuk.data.response.UserDetailResponse
+import com.mufiid.ojekyuk.data.response.UserResponse
+import com.mufiid.ojekyuk.data.response.customer.CustomerResponse
+import com.mufiid.ojekyuk.data.response.customer.LoginResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
+
+typealias ResponseApi <T> = Response<BaseResponse<T>>
 
 interface WebServices {
 
@@ -21,8 +26,29 @@ interface WebServices {
         @Path("id") id: Int
     ): Response<UserDetailResponse>
 
+    @POST(EndPoint.LOGIN_CUSTOMER)
+    suspend fun loginCustomer(
+        @Body loginRequest: LoginRequest
+    ): ResponseApi<LoginResponse>
+
+    @POST(EndPoint.REGISTER_CUSTOMER)
+    suspend fun registerCustomer(
+        @Body registerRequest: CustomerRequest
+    ): ResponseApi<CustomerResponse>
+
+    @GET(EndPoint.CUSTOMER)
+    suspend fun getCustomerInfo(
+        @Header("Authorization") token: String
+    ): ResponseApi<CustomerResponse>
+
+    @PUT(EndPoint.CUSTOMER)
+    suspend fun updateCustomer(
+        @Header("Authorization") token: String,
+        @Body userRequest: CustomerRequest
+    ): ResponseApi<CustomerResponse>
+
     companion object {
-        const val BASE_URL = "https://reqres.in"
+        const val BASE_URL = "https://ojekyuk-api.herokuapp.com"
         fun build(): WebServices {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -33,7 +59,10 @@ interface WebServices {
     }
 
     object EndPoint {
-        const val GET_USER = "/api/users"
-        const val GET_USER_DETAIL = "/api/users/{id}"
+        const val GET_USER = "/v1/api/users"
+        const val GET_USER_DETAIL = "/v1/api/users/{id}"
+        const val LOGIN_CUSTOMER = "/v1/api/customer/login"
+        const val REGISTER_CUSTOMER = "/v1/api/customer/register"
+        const val CUSTOMER = "/v1/api/customer"
     }
 }

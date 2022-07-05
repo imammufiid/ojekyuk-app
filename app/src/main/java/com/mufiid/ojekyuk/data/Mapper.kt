@@ -1,5 +1,8 @@
 package com.mufiid.ojekyuk.data
 
+import com.mufiid.ojekyuk.data.response.UserDetailResponse
+import com.mufiid.ojekyuk.data.response.UserResponse
+
 object Mapper {
     fun mapUserResponse(userResponse: UserResponse?): List<User> {
         val mapper: (Data?) -> User = {
