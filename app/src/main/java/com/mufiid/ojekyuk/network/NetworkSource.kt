@@ -43,4 +43,28 @@ class NetworkSource(
             CustomerMapper.responseToDomain(it.data)
         }
     }
+
+    suspend fun loginDriver(loginRequest: LoginRequest): FlowState<String?> {
+        return webProvider.get().loginDriver(loginRequest).asFlowStateEvent {
+            it.data?.token
+        }
+    }
+
+    suspend fun registerDriver(customerRequest: CustomerRequest): FlowState<Customer> {
+        return webProvider.get().registerDriver(customerRequest).asFlowStateEvent {
+            CustomerMapper.responseToDomain(it.data)
+        }
+    }
+
+    suspend fun getDriverInfo(token: String): FlowState<Customer> {
+        return webProvider.get().getDriverInfo(token).asFlowStateEvent {
+            CustomerMapper.responseToDomain(it.data)
+        }
+    }
+
+    suspend fun updateDriver(token: String, customerRequest: CustomerRequest): FlowState<Customer> {
+        return webProvider.get().updateDriver(token, customerRequest).asFlowStateEvent {
+            CustomerMapper.responseToDomain(it.data)
+        }
+    }
 }

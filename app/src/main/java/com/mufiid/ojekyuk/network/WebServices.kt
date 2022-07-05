@@ -47,6 +47,27 @@ interface WebServices {
         @Body userRequest: CustomerRequest
     ): ResponseApi<CustomerResponse>
 
+    @POST(EndPoint.LOGIN_DRIVER)
+    suspend fun loginDriver(
+        @Body loginRequest: LoginRequest
+    ): ResponseApi<LoginResponse>
+
+    @POST(EndPoint.REGISTER_DRIVER)
+    suspend fun registerDriver(
+        @Body registerRequest: CustomerRequest
+    ): ResponseApi<CustomerResponse>
+
+    @GET(EndPoint.DRIVER)
+    suspend fun getDriverInfo(
+        @Header("Authorization") token: String
+    ): ResponseApi<CustomerResponse>
+
+    @PUT(EndPoint.DRIVER)
+    suspend fun updateDriver(
+        @Header("Authorization") token: String,
+        @Body userRequest: CustomerRequest
+    ): ResponseApi<CustomerResponse>
+
     companion object {
         const val BASE_URL = "https://ojekyuk-api.herokuapp.com"
         fun build(): WebServices {
@@ -64,5 +85,9 @@ interface WebServices {
         const val LOGIN_CUSTOMER = "/v1/api/customer/login"
         const val REGISTER_CUSTOMER = "/v1/api/customer/register"
         const val CUSTOMER = "/v1/api/customer"
+
+        const val LOGIN_DRIVER = "/v1/api/driver/login"
+        const val REGISTER_DRIVER = "/v1/api/driver/register"
+        const val DRIVER = "/v1/api/driver"
     }
 }

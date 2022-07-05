@@ -34,6 +34,22 @@ class UserRepositoryImpl(
     override val customerInfoEventManager: StateEventManager<Customer>
         get() = _customerInfoEventManager
 
+    private val _driverLoginEventManager = default<String?>()
+    override val driverLoginEventManager: StateEventManager<String?>
+        get() = _driverLoginEventManager
+
+    private val _driverRegisterEventManager = default<Customer>()
+    override val driverRegisterEventManager: StateEventManager<Customer>
+        get() = _driverRegisterEventManager
+
+    private val _driverUpdateEventManager = default<Customer>()
+    override val driverUpdateEventManager: StateEventManager<Customer>
+        get() = _driverUpdateEventManager
+
+    private val _driverInfoEventManger = default<Customer>()
+    override val driverInfoEventManager: StateEventManager<Customer>
+        get() = _driverInfoEventManger
+
     override suspend fun getUsers(page: Int) {
         networkSource.getList(page)
             .collect(_userStateEventManager)
@@ -55,5 +71,23 @@ class UserRepositoryImpl(
     override suspend fun customerInfo() {
         val token = ""
         networkSource.getCustomerInfo(token).collect(_customerInfoEventManager)
+    }
+
+    override suspend fun loginDriver(loginRequest: LoginRequest) {
+        networkSource.loginDriver(loginRequest).collect(_driverLoginEventManager)
+    }
+
+    override suspend fun registerDriver(customerRequest: CustomerRequest) {
+        networkSource.registerDriver(customerRequest).collect(_driverRegisterEventManager)
+    }
+
+    override suspend fun updateDriver(customerRequest: CustomerRequest) {
+        val token = ""
+        networkSource.updateDriver(token, customerRequest).collect(_driverUpdateEventManager)
+    }
+
+    override suspend fun driverInfo() {
+        val token = ""
+        networkSource.getDriverInfo(token).collect(_driverInfoEventManger)
     }
 }
