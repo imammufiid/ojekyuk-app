@@ -2,8 +2,10 @@ package com.mufiid.ojekyuk.repository
 
 import com.mufiid.ojekyuk.data.User
 import com.mufiid.ojekyuk.data.request.CustomerRequest
+import com.mufiid.ojekyuk.data.request.DriverRequest
 import com.mufiid.ojekyuk.data.request.LoginRequest
 import com.mufiid.ojekyuk.data.response.customer.Customer
+import com.mufiid.ojekyuk.data.response.driver.Driver
 import com.mufiid.ojekyuk.event.StateEventManager
 import com.mufiid.ojekyuk.network.NetworkSource
 import com.mufiid.ojekyuk.utils.default
@@ -38,16 +40,16 @@ class UserRepositoryImpl(
     override val driverLoginEventManager: StateEventManager<String?>
         get() = _driverLoginEventManager
 
-    private val _driverRegisterEventManager = default<Customer>()
-    override val driverRegisterEventManager: StateEventManager<Customer>
+    private val _driverRegisterEventManager = default<Driver>()
+    override val driverRegisterEventManager: StateEventManager<Driver>
         get() = _driverRegisterEventManager
 
-    private val _driverUpdateEventManager = default<Customer>()
-    override val driverUpdateEventManager: StateEventManager<Customer>
+    private val _driverUpdateEventManager = default<Driver>()
+    override val driverUpdateEventManager: StateEventManager<Driver>
         get() = _driverUpdateEventManager
 
-    private val _driverInfoEventManger = default<Customer>()
-    override val driverInfoEventManager: StateEventManager<Customer>
+    private val _driverInfoEventManger = default<Driver>()
+    override val driverInfoEventManager: StateEventManager<Driver>
         get() = _driverInfoEventManger
 
     override suspend fun getUsers(page: Int) {
@@ -77,13 +79,13 @@ class UserRepositoryImpl(
         networkSource.loginDriver(loginRequest).collect(_driverLoginEventManager)
     }
 
-    override suspend fun registerDriver(customerRequest: CustomerRequest) {
-        networkSource.registerDriver(customerRequest).collect(_driverRegisterEventManager)
+    override suspend fun registerDriver(driverRequest: DriverRequest) {
+        networkSource.registerDriver(driverRequest).collect(_driverRegisterEventManager)
     }
 
-    override suspend fun updateDriver(customerRequest: CustomerRequest) {
+    override suspend fun updateDriver(driverRequest: DriverRequest) {
         val token = ""
-        networkSource.updateDriver(token, customerRequest).collect(_driverUpdateEventManager)
+        networkSource.updateDriver(token, driverRequest).collect(_driverUpdateEventManager)
     }
 
     override suspend fun driverInfo() {

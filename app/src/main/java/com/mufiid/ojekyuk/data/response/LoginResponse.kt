@@ -1,4 +1,4 @@
-package com.mufiid.ojekyuk.data.response.customer
+package com.mufiid.ojekyuk.data.response
 
 
 import com.google.gson.annotations.SerializedName

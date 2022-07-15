@@ -2,11 +2,13 @@ package com.mufiid.ojekyuk.network
 
 import com.mufiid.ojekyuk.data.request.LoginRequest
 import com.mufiid.ojekyuk.data.request.CustomerRequest
+import com.mufiid.ojekyuk.data.request.DriverRequest
 import com.mufiid.ojekyuk.data.response.BaseResponse
 import com.mufiid.ojekyuk.data.response.UserDetailResponse
 import com.mufiid.ojekyuk.data.response.UserResponse
 import com.mufiid.ojekyuk.data.response.customer.CustomerResponse
-import com.mufiid.ojekyuk.data.response.customer.LoginResponse
+import com.mufiid.ojekyuk.data.response.LoginResponse
+import com.mufiid.ojekyuk.data.response.driver.DriverResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -54,19 +56,19 @@ interface WebServices {
 
     @POST(EndPoint.REGISTER_DRIVER)
     suspend fun registerDriver(
-        @Body registerRequest: CustomerRequest
-    ): ResponseApi<CustomerResponse>
+        @Body driverRequest: DriverRequest
+    ): ResponseApi<DriverResponse>
 
     @GET(EndPoint.DRIVER)
     suspend fun getDriverInfo(
         @Header("Authorization") token: String
-    ): ResponseApi<CustomerResponse>
+    ): ResponseApi<DriverResponse>
 
     @PUT(EndPoint.DRIVER)
     suspend fun updateDriver(
         @Header("Authorization") token: String,
-        @Body userRequest: CustomerRequest
-    ): ResponseApi<CustomerResponse>
+        @Body userRequest: DriverRequest
+    ): ResponseApi<DriverResponse>
 
     companion object {
         const val BASE_URL = "https://ojekyuk-api.herokuapp.com"
